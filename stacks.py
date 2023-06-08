@@ -3,11 +3,12 @@ import sys
 class Stacks:
 
     stack = []
+    local = {}
 
     def push(self, a):
         if '.' in a:
             a = float(a)
-        else:
+        elif a.isdecimal():
             a = int(a)
         
         self.stack.append(a)
@@ -39,6 +40,18 @@ class Stacks:
 
     def print(self):
         print(self.pop())
+
+    def equal(self):
+        if self.pop() == self.pop():
+            self.push('TRUE')
+        else:
+            self.push('FALSE')
+
+    def setlocal(self, a):
+        self.local[a] = self.pop()
+    
+    def getlocal(self, a):
+        self.stack.append(self.local[a])
 
     
 

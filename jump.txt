@@ -1,0 +1,47 @@
+PUSH 0
+SETLOCAL i
+CHECK1:
+    GETLOCAL i
+    PUSH 100
+    EQUAL
+    JUMP_IF OWARI1
+    PUSH 0
+    SETLOCAL j
+    CHECK2:
+        GETLOCAL j
+        PUSH 100
+        EQUAL
+        JUMP_IF OWARI2
+        PUSH 0
+        SETLOCAL k
+        CHECK3:
+            GETLOCAL k
+            PUSH 100
+            EQUAL
+            JUMP_IF OWARI3
+            GETLOCAL k
+            GETLOCAL j
+            MUL
+            GETLOCAL i
+            ADD
+            PRINT
+            GETLOCAL k
+            PUSH 1
+            ADD
+            SETLOCAL k
+            JUMP CHECK3
+        OWARI3:
+            GETLOCAL j
+            PUSH 1
+            ADD
+            SETLOCAL j
+            JUMP CHECK2
+    OWARI2:
+        GETLOCAL i
+        PUSH 1
+        ADD
+        SETLOCAL i
+        JUMP CHECK1
+OWARI1:
+    PUSH OWARI
+    PRINT
