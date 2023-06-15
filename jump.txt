@@ -24,7 +24,6 @@ CHECK1:
             MUL
             GETLOCAL i
             ADD
-            PRINT
             GETLOCAL k
             PUSH 1
             ADD
@@ -44,4 +43,3 @@ CHECK1:
         JUMP CHECK1
 OWARI1:
     PUSH OWARI
-    PRINT

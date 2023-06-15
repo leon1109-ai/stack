@@ -16,6 +16,9 @@ def my_index(l, x, default=False):
 with open(args[1], 'r') as f:
     list = f.read().split('\n')
 
+
+jump_dic = {}
+
 #print(list)
 i = 0
 while i < len(list):
@@ -32,9 +35,12 @@ while i < len(list):
         i += 1
         list.remove(func)
 
+    if ':' in list[i]:
+        jump_dic[list[i]] = i
+
     i += 1
 
-#print(list)
+#print(jump_dic)
 
 # Stack
 stack = stacks.Stacks()
@@ -71,13 +77,13 @@ while pc < len(list):
         stack.getlocal(list[pc+1])
         pc += 1
     elif l == 'JUMP':
-        pc = list.index(f'{list[pc+1]}:')
+        pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'JUMP_IF':
         if stack.pop() == 'TRUE':
-            pc = list.index(f'{list[pc+1]}:')
+            pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'CALL':
         back = pc
-        pc = list.index(f'{list[pc+1]}:')
+        pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'RETURN':
         end = pc
         pc = back
