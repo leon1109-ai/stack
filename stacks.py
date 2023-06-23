@@ -4,6 +4,7 @@ class Stacks:
 
     stack = []
     local = {}
+    funcLocal = {}
 
     def push(self, a):
         if '.' in a:
@@ -52,6 +53,46 @@ class Stacks:
     
     def getlocal(self, a):
         self.stack.append(self.local[a])
+
+    def setList(self, a, m):
+        l = [0] * m
+        self.local[a] = l
+
+    def setElement(self, a, i):
+        array = self.local[a]
+        if i >= len(array):
+            print('array is out of bounds')
+            sys.exit()
+        else:
+            array[i] = self.pop()
+
+    def getElement(self, a, i):
+        array = self.local[a]
+        if i >= len(array):
+            print('array is out of bounds')
+            sys.exit()
+        else:
+            self.stack.append(array[i])
+
+    def setFuncLocal(self, a):
+        if '*' in a:
+            self.funcLocal[a] = []
+        else:
+            self.funcLocal[a] = self.pop()
+    
+    def getFuncLocal(self, a):
+        self.stack.append(self.funcLocal[a])
+
+    def call(self, c):
+        self.funcLocal = self.local.copy()
+        for i in range(c):
+            arg = f'{i}'
+            self.setFuncLocal(arg)
+        #print(self.funcLocal)
+
+    def funcReturn(self):
+        self.funcLocal = {}
+        
 
     
 

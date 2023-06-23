@@ -2,21 +2,21 @@ PUSH 0
 SETLOCAL i
 CHECK1:
     GETLOCAL i
-    PUSH 100
+    PUSH 10
     EQUAL
     JUMP_IF OWARI1
     PUSH 0
     SETLOCAL j
     CHECK2:
         GETLOCAL j
-        PUSH 100
+        PUSH 10
         EQUAL
         JUMP_IF OWARI2
         PUSH 0
         SETLOCAL k
         CHECK3:
             GETLOCAL k
-            PUSH 100
+            PUSH 10
             EQUAL
             JUMP_IF OWARI3
             GETLOCAL k
