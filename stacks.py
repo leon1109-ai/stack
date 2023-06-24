@@ -1,10 +1,12 @@
 import sys
+import _ctypes
 
 class Stacks:
 
     stack = []
     globals = {}
     local = {}
+    localID = []
 
     def push(self, a):
         if '.' in a:
@@ -82,12 +84,6 @@ class Stacks:
     
     def getlocal(self, a):
         self.stack.append(self.local[a])
-
-    def call(self, c):
-        self.local = self.globals.copy()
-        for i in range(c):
-            arg = f'{i}'
-            self.setlocal(arg)
 
     def funcReturn(self):
         self.local = {}
