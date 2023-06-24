@@ -72,11 +72,11 @@ while pc < len(list):
         stack.div()
     elif l == 'EQUAL':
         stack.equal()
-    elif l == 'SETLOCAL':
-        stack.setlocal(list[pc+1])
+    elif l == 'SETGLOBAL':
+        stack.setglobal(list[pc+1])
         pc += 1
-    elif l == 'GETLOCAL':
-        stack.getlocal(list[pc+1])
+    elif l == 'GETGLOBAL':
+        stack.getglobal(list[pc+1])
         pc += 1
     elif l == 'JUMP':
         pc = jump_dic[f'{list[pc+1]}:']
@@ -92,11 +92,11 @@ while pc < len(list):
         end = pc
         pc = back
         stack.funcReturn()
-    elif l == 'SETFUNCLOCAL':
-        stack.setFuncLocal(list[pc+1])
+    elif l == 'SETLOCAL':
+        stack.setlocal(list[pc+1])
         pc += 1
-    elif l == 'GETFUNCLOCAL':
-        stack.getFuncLocal(list[pc+1])
+    elif l == 'GETLOCAL':
+        stack.getlocal(list[pc+1])
         pc += 1
     elif l == 'SETLIST':
         stack.setList(list[pc+1], int(list[pc+2]))

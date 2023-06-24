@@ -3,8 +3,8 @@ import sys
 class Stacks:
 
     stack = []
+    globals = {}
     local = {}
-    funcLocal = {}
 
     def push(self, a):
         if '.' in a:
@@ -48,18 +48,18 @@ class Stacks:
         else:
             self.push('FALSE')
 
-    def setlocal(self, a):
-        self.local[a] = self.pop()
+    def setglobal(self, a):
+        self.globals[a] = self.pop()
     
-    def getlocal(self, a):
-        self.stack.append(self.local[a])
+    def getglobal(self, a):
+        self.stack.append(self.globals[a])
 
     def setList(self, a, m):
         l = [0] * m
-        self.local[a] = l
+        self.globals[a] = l
 
     def setElement(self, a, i):
-        array = self.local[a]
+        array = self.globals[a]
         if i >= len(array):
             print('array is out of bounds')
             sys.exit()
@@ -67,31 +67,30 @@ class Stacks:
             array[i] = self.pop()
 
     def getElement(self, a, i):
-        array = self.local[a]
+        array = self.globals[a]
         if i >= len(array):
             print('array is out of bounds')
             sys.exit()
         else:
             self.stack.append(array[i])
 
-    def setFuncLocal(self, a):
+    def setlocal(self, a):
         if '*' in a:
-            self.funcLocal[a] = []
+            self.local[a] = []
         else:
-            self.funcLocal[a] = self.pop()
+            self.local[a] = self.pop()
     
-    def getFuncLocal(self, a):
-        self.stack.append(self.funcLocal[a])
+    def getlocal(self, a):
+        self.stack.append(self.local[a])
 
     def call(self, c):
-        self.funcLocal = self.local.copy()
+        self.local = self.globals.copy()
         for i in range(c):
             arg = f'{i}'
-            self.setFuncLocal(arg)
-        #print(self.funcLocal)
+            self.setlocal(arg)
 
     def funcReturn(self):
-        self.funcLocal = {}
+        self.local = {}
         
 
     
