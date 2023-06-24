@@ -55,32 +55,33 @@ class Stacks:
     def getglobal(self, a):
         self.stack.append(self.globals[a])
 
-    def setList(self, a, m):
+    def setList(self, a, m, dict=globals):
         l = [0] * m
-        self.globals[a] = l
+        dict[a] = l
 
-    def setElement(self, a, i):
-        array = self.globals[a]
+    def setElement(self, a, i, dict=globals):
+        array = dict[a]
         if i >= len(array):
             print('array is out of bounds')
             sys.exit()
         else:
             array[i] = self.pop()
+            #print(dict)
 
-    def getElement(self, a, i):
-        array = self.globals[a]
+    def getElement(self, a, i, dict=globals):
+        array = dict[a]
         if i >= len(array):
             print('array is out of bounds')
             sys.exit()
         else:
             self.stack.append(array[i])
+            #print(dict)
 
     def setlocal(self, a, dict):
         dict[a] = self.pop()
     
     def getlocal(self, a, dict):
         self.stack.append(dict[a])
-        #print(dict)
 
     def funcReturn(self, dict):
         dict = {}
