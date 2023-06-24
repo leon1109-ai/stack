@@ -84,8 +84,6 @@ while pc < len(list):
         if stack.pop() == 'TRUE':
             pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'CALL':
-        argc = int(list[pc+2])
-        stack.call(argc)
         back = pc
         pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'RETURN':
