@@ -84,17 +84,18 @@ while pc < len(list):
         if stack.pop() == 'TRUE':
             pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'CALL':
+        local = {}
         back = pc
         pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'RETURN':
         end = pc
         pc = back
-        stack.funcReturn()
+        #stack.funcReturn(local)
     elif l == 'SETLOCAL':
-        stack.setlocal(list[pc+1])
+        stack.setlocal(list[pc+1], local)
         pc += 1
     elif l == 'GETLOCAL':
-        stack.getlocal(list[pc+1])
+        stack.getlocal(list[pc+1], local)
         pc += 1
     elif l == 'SETLIST':
         stack.setList(list[pc+1], int(list[pc+2]))

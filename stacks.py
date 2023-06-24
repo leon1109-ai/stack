@@ -5,7 +5,6 @@ class Stacks:
 
     stack = []
     globals = {}
-    local = {}
     localID = []
 
     def push(self, a):
@@ -76,17 +75,15 @@ class Stacks:
         else:
             self.stack.append(array[i])
 
-    def setlocal(self, a):
-        if '*' in a:
-            self.local[a] = []
-        else:
-            self.local[a] = self.pop()
+    def setlocal(self, a, dict):
+        dict[a] = self.pop()
     
-    def getlocal(self, a):
-        self.stack.append(self.local[a])
+    def getlocal(self, a, dict):
+        self.stack.append(dict[a])
+        #print(dict)
 
-    def funcReturn(self):
-        self.local = {}
+    def funcReturn(self, dict):
+        dict = {}
         
 
     

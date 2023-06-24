@@ -14,7 +14,9 @@ FUNC:
     PUSH 1
     PUSH 2
     ADD
+    SETLOCAL c
     GETGLOBAL a
+    GETLOCAL c
     MUL
     RETURN
 PUSH 11
