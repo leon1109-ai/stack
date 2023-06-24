@@ -106,6 +106,15 @@ while pc < len(list):
     elif l == 'GETELEMETNT':
         stack.getElement(list[pc+1], int(list[pc+2]))
         pc += 2
+    elif l == 'SETLOCALLIST':
+        stack.setList(list[pc+1], int(list[pc+2]), local)
+        pc += 2
+    elif l == 'SETLOCALELEMETNT':
+        stack.setElement(list[pc+1], int(list[pc+2]), local)
+        pc += 2
+    elif l == 'GETLOCALELEMETNT':
+        stack.getElement(list[pc+1], int(list[pc+2]), local)
+        pc += 2
         
 
     pc += 1
