@@ -3,6 +3,7 @@ import sys
 class Stacks:
 
     stack = []
+    globals = {}
     local = {}
 
     def push(self, a):
@@ -47,11 +48,50 @@ class Stacks:
         else:
             self.push('FALSE')
 
+    def setglobal(self, a):
+        self.globals[a] = self.pop()
+    
+    def getglobal(self, a):
+        self.stack.append(self.globals[a])
+
+    def setList(self, a, m):
+        l = [0] * m
+        self.globals[a] = l
+
+    def setElement(self, a, i):
+        array = self.globals[a]
+        if i >= len(array):
+            print('array is out of bounds')
+            sys.exit()
+        else:
+            array[i] = self.pop()
+
+    def getElement(self, a, i):
+        array = self.globals[a]
+        if i >= len(array):
+            print('array is out of bounds')
+            sys.exit()
+        else:
+            self.stack.append(array[i])
+
     def setlocal(self, a):
-        self.local[a] = self.pop()
+        if '*' in a:
+            self.local[a] = []
+        else:
+            self.local[a] = self.pop()
     
     def getlocal(self, a):
         self.stack.append(self.local[a])
+
+    def call(self, c):
+        self.local = self.globals.copy()
+        for i in range(c):
+            arg = f'{i}'
+            self.setlocal(arg)
+
+    def funcReturn(self):
+        self.local = {}
+        
 
     
 
