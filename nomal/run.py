@@ -1,11 +1,12 @@
 import sys
-import stacks
+import stacks as stacks
 import time
 
 
 #start = time.time()
 args = sys.argv
 
+# 
 def my_index(l, x, default=False):
     if x in l:
         return l.index(x)
@@ -42,18 +43,27 @@ while i < len(list):
     i += 1
 
 #print(list)
+#print(len(list))
 #print(jump_dic)
 
 # Stack
 stack = stacks.Stacks()
 pc = 0
-back = 0
-end = 0
+lp = 0
+local = [{}]
+back = []
+end = []
+flag = False
+#count = 0
+#debug = 30
 while pc < len(list):
     l = list[pc]
 
-    if pc == my_index(list, f'{list[back+1]}:'):
-        pc = end
+    if pc == jump_dic.get(l):
+        if not flag:
+            #print(end)
+            pc = end.pop(-1) + 1
+            continue
 
     if l == 'PUSH':
         stack.push(list[pc+1])
@@ -82,20 +92,40 @@ while pc < len(list):
         pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'JUMP_IF':
         if stack.pop() == 'TRUE':
+            #print()
+            #print('if')
+            #print(local[lp])
             pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'CALL':
-        local = {}
-        back = pc
+        #print(lp)
+        #print()
+        #print('call')
+        #if debug == count:
+        #    break
+        #count += 1
+        #print('stack: ', stack.stack)
+        #print(local[lp])
+        #print('end: ', end)
+        #print(jump_dic)
+        flag = True
+        local.append({})
+        back.append(pc + 1)
         pc = jump_dic[f'{list[pc+1]}:']
+        lp += 1
     elif l == 'RETURN':
-        end = pc
-        pc = back
+        #print()
+        #print('return')
+        flag = False
+        end.append(pc)
+        #print('back: ', back)
+        pc = back.pop(-1)
+        lp -= 1
         #stack.funcReturn(local)
     elif l == 'SETLOCAL':
-        stack.setlocal(list[pc+1], local)
+        stack.setlocal(list[pc+1], local[lp])
         pc += 1
     elif l == 'GETLOCAL':
-        stack.getlocal(list[pc+1], local)
+        stack.getlocal(list[pc+1], local[lp])
         pc += 1
     elif l == 'SETLIST':
         stack.setList(list[pc+1], int(list[pc+2]))
@@ -107,18 +137,18 @@ while pc < len(list):
         stack.getElement(list[pc+1], int(list[pc+2]))
         pc += 2
     elif l == 'SETLOCALLIST':
-        stack.setList(list[pc+1], int(list[pc+2]), local)
+        stack.setList(list[pc+1], int(list[pc+2]), local[lp])
         pc += 2
     elif l == 'SETLOCALELEMETNT':
-        stack.setElement(list[pc+1], int(list[pc+2]), local)
+        stack.setElement(list[pc+1], int(list[pc+2]), local[lp])
         pc += 2
     elif l == 'GETLOCALELEMETNT':
-        stack.getElement(list[pc+1], int(list[pc+2]), local)
+        stack.getElement(list[pc+1], int(list[pc+2]), local[lp])
         pc += 2
         
 
     pc += 1
 
-
+#print('count: ', count)
 #end = time.time()
 #print(end - start)

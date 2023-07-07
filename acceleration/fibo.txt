@@ -1,0 +1,30 @@
+PUSH 3
+CALL FIBO
+FIBO:
+    SETLOCAL n
+
+    GETLOCAL n
+    PUSH 1
+    EQUAL
+    JUMP_IF ROOT
+
+    GETLOCAL n
+    PUSH 0
+    EQUAL
+    JUMP_IF ROOT
+
+    PUSH 1
+    GETLOCAL n
+    SUB
+    CALL FIBO
+
+    PUSH 2
+    GETLOCAL n
+    SUB
+    CALL FIBO
+
+    ADD
+    RETURN
+ROOT:
+    GETLOCAL n
+    RETURN
