@@ -1,38 +1,10 @@
 import sys
 import stacks as stacks
 import time
-from collections import deque
-from collections import defaultdict
-import numpy as np
-
-isd = {
-    'PUSH': 0,
-    'POP': 1,
-    'ADD': 2,
-    'SUB': 3,
-    'MUL': 4,
-    'DIV': 5,
-    'PRINT': 6,
-    'EQUAL':7,
-    'JUMP': 8,
-    'JUMP_IF': 9,
-    'CALL': 10,
-    'RETURN': 11,
-    'SETGLOBAL': 12,
-    'GETGLOBAL': 13,
-    'SETLOCAL': 14,
-    'GETLOCAL': 15,
-    'SETLIST': 16,
-    'SETELEMETNT': 17,
-    'GETELEMETNT': 18,
-    'SETLOCALLIST': 19,
-    'SETLOCALELEMETNT': 20,
-    'GETLOCALELEMETNT': 21
-}
-
 
 #start = time.time()
 args = sys.argv
+
 
 # 
 def my_index(l, x, default=False):
@@ -41,10 +13,8 @@ def my_index(l, x, default=False):
     else:
         return default
 
-
 with open(args[1], 'r') as f:
     list = f.read().split('\n')
-
 
 jump_dic = {}
 
@@ -67,13 +37,20 @@ while i < len(list):
         i += 1
         list.remove(func)
 
+    #print(func)
     if ':' in list[i]:
         jump_dic[list[i]] = i
+    elif 'JUMP' in func:
+        jump_dic[list[i]] = i
+        #print(list[i])
+    elif ';' in list[i]:
+        jump_dic[list[i]] = i
+        
 
     i += 1
 #e = time.time()
 #print('time1 ', e - s)
-#print(list)
+print(list)
 #print(len(list))
 #print(jump_dic)
 
@@ -85,14 +62,16 @@ local = [{}]
 back = []
 end = []
 flag = False
+loopEnd = -1
 #count = 0
 #debug = 30
-#s = time.time()
+s = time.time()
 while pc < len(list):
     l = list[pc]
 
+    #ラベル部分を飛ぶ
     if pc == jump_dic.get(l):
-        if not flag:
+        if not flag and my_index(end, pc):
             #print(end)
             pc = end.pop() + 1
             continue
@@ -113,21 +92,13 @@ while pc < len(list):
     elif l == 'DIV':
         stack.div()
     elif l == 'EQUAL':
-        stack.equal()
+        skip = stack.equal()
     elif l == 'SETGLOBAL':
         stack.setglobal(list[pc+1])
         pc += 1
     elif l == 'GETGLOBAL':
         stack.getglobal(list[pc+1])
         pc += 1
-    elif l == 'JUMP':
-        pc = jump_dic[f'{list[pc+1]}:']
-    elif l == 'JUMP_IF':
-        if stack.pop() == 'TRUE':
-            #print()
-            #print('if')
-            #print(local[lp])
-            pc = jump_dic[f'{list[pc+1]}:']
     elif l == 'CALL':
         #print(lp)
         #print()
@@ -177,11 +148,28 @@ while pc < len(list):
     elif l == 'GETLOCALELEMETNT':
         stack.getElement(list[pc+1], int(list[pc+2]), local[lp])
         pc += 2
-        
+    elif l == 'JUMP':
+        #print(local[lp][f'{list[pc - 1]}'])
+        loopEnd = pc - 5
+        pc = jump_dic[f'{list[pc+1]};']
+        if not local[lp][f'{list[pc - 1]}'] == skip:
+            pc = pc+7
+    elif l == 'JUMP_IF':
+        if stack.pop() == 'TRUE':
+            #print()
+            #print('if')
+            #print(local[lp])
+            pc = jump_dic[f'{list[pc+1]};']
+    elif l == 'INCREMENT':
+        stack.increment(list[pc+1], local[lp])
+        pc += 1
+    elif l == 'DECREMENT':
+        stack.decrement(list[pc+1], local[lp])
+        pc += 1
 
     pc += 1
-#e = time.time()
-#print('time2 ', e - s)
+e = time.time()
+print('time2 ', e - s)
 #print('count: ', count)
 #end = time.time()
 #print(end - start)
